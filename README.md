@@ -4,7 +4,7 @@
 Due to the COVID-19 Pandemic situation, wearing of a face mask is become mandantory. So to keep the track of this, i create a Machine learning model which helps to detect whether a person in front of the camera(Real-Time), is wearing a mask or not.
 
 ## Pre-Requisites Before running
-* First of all, Please change the path of DIRECTORY in Train_Mask_Detector.py file to your working path.
+* First of all, Please change the path of DIRECTORY in Train_Mask_Detector.py file to your working directory path.
 * Install Tensorflow using pip install tensorflow.
 * Install Keras using pip install keras.
 * Install OpenCV using pip install opencv-python.
