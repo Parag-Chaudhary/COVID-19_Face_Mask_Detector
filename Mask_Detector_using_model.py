@@ -1,12 +1,15 @@
+# Initialising Modules
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 import cv2
 import numpy as np
 
+# Loading the model
 model = load_model('Mask_Detector.model')
 face_cascade= cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
+# Starting the camera
 cap = cv2.VideoCapture(0)
 
 labels_dict={0:'MASK',1:'NO MASK'}
@@ -16,7 +19,8 @@ while True:
     ret, frame = cap.read()
     color = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
     faces = face_cascade.detectMultiScale(color,1.3,5)
-
+    
+# Defining the box around the face
     for (x,y,w,h) in faces:
 
         face_img= color[y:y+w,x:x+h]
@@ -25,6 +29,7 @@ while True:
         pre_process= preprocess_input(img_arr)
         reshaped= np.reshape(pre_process,(1,224,224,3))
 
+ # Predict using model
         result = model.predict(reshaped)
 
         labels = np.argmax(result,axis=1)[0]
