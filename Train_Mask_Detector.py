@@ -1,3 +1,4 @@
+# importing Modules
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 
@@ -20,10 +21,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 
+# Initialising the parameters
 INIT_LR = 1e-4
 EPOCHS = 15
 BATCH_SIZE = 32
 
+# Set the working path
 DIRECTORY = r'D:\Coursera\MLProject\Face Mask Detector\Datasets'
 CATEGORIES = ['with_mask', 'without_mask']
 
@@ -32,6 +35,7 @@ print('Loading Images....')
 data = []
 labels =[]
 
+# Loading the images from the pathway
 for category in CATEGORIES:
     path = os.path.join(DIRECTORY, category)
     for img in os.listdir(path):
@@ -51,8 +55,10 @@ labels = to_categorical(labels)
 data = np.array(data, dtype='float32')
 labels = np.array(labels)
 
+# Split the data in train and test sets
 (train_X, test_X, train_Y, test_Y)= train_test_split(data, labels, test_size= 0.2, stratify= labels, random_state= 42)
 
+# Creating more data from the initial data
 aug = ImageDataGenerator(
     rotation_range=20,
     zoom_range=0.15,
@@ -62,6 +68,7 @@ aug = ImageDataGenerator(
     horizontal_flip=True,
     fill_mode="nearest")
 
+# initialising Transfer learning
 basemodel= MobileNetV2(weights='imagenet', include_top= False,
                        input_tensor= Input(shape=(224,224,3)))
 headmodel= basemodel.output                                         # output shape is 7*7*1280
@@ -73,6 +80,7 @@ headmodel= Dense(2,activation='softmax')(headmodel)
 
 model= Model(inputs=basemodel.input, outputs=headmodel)
 
+# Freezing the weights of the basemodel
 for layer in basemodel.layers:
     layer.trainable= False
 
@@ -97,6 +105,7 @@ print(classification_report(test_Y.argmax(axis=1), predidxs,target_names= lb.cla
 print('Saving the model....')
 model.save('Mask_Detector.model', save_format='h5')
 
+# Plotting the Graph
 N= np.arange(0,EPOCHS)
 plt.style.use('ggplot')
 plt.figure()
