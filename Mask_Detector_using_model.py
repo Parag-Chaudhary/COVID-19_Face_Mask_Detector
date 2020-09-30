@@ -40,6 +40,7 @@ while True:
         cv2.putText(frame,labels_dict[labels],(x,y-10), cv2.FONT_HERSHEY_SIMPLEX,0.8,(255,255,255),2)
         cv2.putText(frame,str(percentage),(x+130,y-10),cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),2)
 
+# Press q to Quit
     cv2.imshow('CAMERA', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
